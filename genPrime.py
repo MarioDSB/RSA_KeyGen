@@ -7,15 +7,18 @@ def genRand(l):
   w = int(l/2)
 
   p = [0]*w
-  p[0] = 1
-  p[w-1] = 1
 
-  bitseq = os.urandom(w)
+  # It's rather important to pay attention to what you're doing, since urandom returns a sequence of n BYTES...
+  bitseq = os.urandom(int(w/8))
 
-  for i in range(1,len(bitseq)-1):
+  for i in range(0,len(bitseq)):
     b = format(bitseq[i],'08b')
+    print(b,i)
     for j in range(0,len(b)):
       p[i] = int(b[j])
+
+  p[0] = 1
+  p[w-1] = 1
 
   for k in range(0,w):
     n += ((2**((w-1)-k))*p[k])
