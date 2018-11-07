@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
   # TODO: fixme make this loop less loopy (if you know what I mean); this code is UGLY.
 
-  while (True):
+  while (not mrab_pr(2*q + 1,10) and not mrab_pr(q,10)):
     p = genRand(int(sys.argv[1]))
     
     # Using sieve of erasthotens to eliminate numbers that are divisible by the first 5000 known primes.
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     
     break
 
-  while (True):
+  while (not mrab_pr(2*q + 1,10) and not mrab_pr(q,10)):
     q = genRand(int(sys.argv[1]))
     
     # Using sieve of erasthotens to eliminate numbers that are divisible by the first 5000 known primes.
@@ -132,10 +132,12 @@ if __name__ == "__main__":
         q = genRand(int(sys.argv[1]))
         while (any( q % i == 0 for i in smallPrimes)):
           q = genRand(int(sys.argv[1]))
-    
+
     break
 
   print(p)
   print(q)
   print("")
-  print(datetime.now() - startTime)
+
+  t = datetime.now() - startTime
+  print(t)
