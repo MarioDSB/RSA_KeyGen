@@ -9,12 +9,14 @@ e = 65537
 
 
 # Generate a random number n such that
+# Unnecessary while cycles here, just perform a bitwise OR with 1 on n
 def gen_rand(l):
     w = int(l/2)
 
-    n = random.randrange(1 << w-1, 1 << w)
-    while n % 2 == 0:
-        n = random.randrange(1 << w-1, 1 << w)
+    min = (1 << (w-1)) | 1
+    max = (1 << (w)) - 1
+
+    n = random.randrange(min, max) | 1
 
     return n
 
@@ -146,7 +148,7 @@ if __name__ == "__main__":
         p = generate_prime(p)
         q = generate_prime(q)
 
-    # We need to calculate d (using Extended Euclides)
+    # We need to calculate d (using Extended Euclid)
     print(p*q, p, q, e, )
     print("")
 
