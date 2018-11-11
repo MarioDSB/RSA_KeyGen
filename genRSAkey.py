@@ -55,12 +55,12 @@ def genRSAkey(l):
   smallPrimes = er_sieve(nsieve)
 
   def miller_rabin_pt(n, rounds):
-      '''
+      """
       Application of the Miller-Rabin primality test
       :param n: number to test primality
       :param rounds: number of times to perform the algorithm
       :return: True, if number is prime; False, otherwise
-      '''
+      """
       d = n - 1
       r = 0
 
@@ -97,12 +97,12 @@ def genRSAkey(l):
 
 
   def gcd(a, b):
-      '''
+      """
       Calculate the Greatest Common Divisor of a and b.
 
       Unless b==0, the result will have the same sign as b (so that when
       b is divided by it, the result comes out positive).
-      '''
+      """
       while b:
           a, b = b, a % b
       return a
@@ -111,13 +111,13 @@ def genRSAkey(l):
   # eucl_alg & ext_eucl_alg withdrawn from:
   # https://en.wikibooks.org/wiki/Algorithm_Implementation/Mathematics/Extended_Euclidean_algorithm#Modular_inverse
   def eucl_alg(a, b):
-      '''
+      """
       Implementation of the Eucledean Algorithm
       a*x + b*y = gcd(x, y)
       :param a:
       :param b:
       :return: (g, x, y), such that a*x + b*y = gcd(x, y)
-      '''
+      """
       if a == 0:
           return b, 0, 1
       else:
@@ -125,13 +125,13 @@ def genRSAkey(l):
           return g, y - (b // a) * x, x
 
   def ext_eucl_alg(e, phi):
-      '''
+      """
       Implementation of the Extended Eucledean Algorithm, to find out modular inverses
       x = mulinv(b) mod n, (x * b) % n == 1
       :param e:
       :param phi:
       :return:
-      '''
+      """
       g, x, _ = eucl_alg(e, phi)
       if g == 1:
           return x % phi
@@ -166,3 +166,6 @@ def genRSAkey(l):
 
   # We need to calculate d (using Extended Euclidean Algorithm)
   return (p*q, p, q, e, d)
+
+if __name__ == "__main__":
+    genRSAkey(int(sys.argv[1]))
