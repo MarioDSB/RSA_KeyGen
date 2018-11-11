@@ -154,6 +154,7 @@ def genRSAkey(l):
 
   phi = (p-1)*(q-1)
 
+# If this happens, then something went wrong.
   while not gcd(e, phi) == 1:
     p = generate_prime()
     q = generate_prime()
