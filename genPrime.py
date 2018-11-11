@@ -6,26 +6,36 @@ l = int(sys.argv[1])
 max_rounds = 100
 smallPrimes = []
 e = 65537
+
 # nsieve such that this sieve will have the first 1000 small primes.
-# Find a good reason for considering the first 1000 primes and cite it in our report.
+# TODO: Find a good reason for considering the first 1000 primes and cite it in our report.
 nsieve = 7920
 
 
 # Generate a random number n such that
 # Unnecessary while cycles here, just perform a bitwise OR with 1 on n
 def gen_rand(l):
+    """
+    Generate a random number
+    :param l: length of the generated number
+    :return: the generated number
+    """
     w = int(l/2)
 
     min = (1 << (w-1)) | 1
-    max = (1 << (w)) - 1
+    max = (1 << w) - 1
 
     n = random.randrange(min, max) | 1
 
     return n
 
 
-# Sieve of Erasthotens for the generation of the small primes up to s
 def er_sieve(s):
+    """
+    Application of the Sieve of Erasthotens, for the generation of the small primes up to s
+    :param s:
+    :return: A list with the generated primes
+    """
     sis = [True]*(s+1)
 
     sis[0] = False
@@ -48,7 +58,12 @@ def er_sieve(s):
 
 
 def miller_rabin_pt(n, rounds):
-
+    """
+    Application of the Miller–Rabin primality test
+    :param n: number to test primality
+    :param rounds: number of times to perform the algorithm
+    :return: True, if number is prime; False, otherwise
+    """
     d = n - 1
     r = 0
 
@@ -71,7 +86,9 @@ def miller_rabin_pt(n, rounds):
     return True
 
 
-def generate_prime(n):
+def generate_prime():
+    n = gen_rand(l)
+
     while not miller_rabin_pt(n, max_rounds):
         n = gen_rand(l)
 
@@ -94,18 +111,45 @@ def gcd(a, b):
     return a
 
 
-if __name__ == "__main__":
+# eucl_alg & ext_eucl_alg withdrawn from:
+# https://en.wikibooks.org/wiki/Algorithm_Implementation/Mathematics/Extended_Euclidean_algorithm#Modular_inverse
+def eucl_alg(a, b):
+    """
+    Implementation of the Eucledean Algorithm
+    a*x + b*y = gcd(x, y)
+    :param a:
+    :param b:
+    :return: (g, x, y), such that a*x + b*y = gcd(x, y)
+    """
+    if a == 0:
+        return b, 0, 1
+    else:
+        g, x, y = eucl_alg(b % a, a)
+        return g, y - (b // a) * x, x
 
-    p = gen_rand(l)
-    q = gen_rand(l)
+
+def ext_eucl_alg(e, phi):
+    """
+    Implementation of the Extended Eucledean Algorithm, to find out modular inverses
+    x = mulinv(b) mod n, (x * b) % n == 1
+    :param e:
+    :param phi:
+    :return:
+    """
+    g, x, _ = eucl_alg(e, phi)
+    if g == 1:
+        return x % phi
+
+
+# TODO: Transform this into genRSAkey(ℓ), like we are supposed to
+if __name__ == "__main__":
 
     smallPrimes = er_sieve(nsieve)
 
-    p = generate_prime(p)
-    q = generate_prime(q)
+    p = generate_prime()
+    q = generate_prime()
 
-    # p and q can never be ==, factorization would be too easy, i.e. n would be a perfect square.
-
+    # p and q can never be equal, factorization would be too easy, i.e. n would be a perfect square.
     n = p*q
 
     exp = int(l/3)+1
@@ -114,21 +158,31 @@ if __name__ == "__main__":
     # Alternatively, a prime p is a strong prime if (p-1) has a very large prime factor
     # Source: https://eprint.iacr.org/2009/318.pdf
     # Source: https://crypto.stackexchange.com/questions/5262/rsa-and-prime-difference
-    safedist = pow(2,exp)
+    safedist = pow(2, exp)
 
     while p == q or abs(p-q) < safedist:
-        q = generate_prime(l)
+        q = generate_prime()
 
-    while not gcd(e, (p-1)*(q-1)) == 1:
-        p = generate_prime(p)
-        q = generate_prime(q)
+    phi = (p-1)*(q-1)
+    while not gcd(e, phi) == 1:
+        p = generate_prime()
+        q = generate_prime()
+        phi = (p-1)*(q-1)
 
-    #print(abs(p-q) >= safedist)
+    d = ext_eucl_alg(e, phi)
 
-    #print (p)
-    #print ("")
-    #print (q)
+    # print(abs(p-q) >= safedist)
 
-    # We need to calculate d (using Extended Euclid)
-    print(p*q, p, q, e, )
-    print("")
+    print(p)
+    print()
+    print(q)
+    print()
+    print(p*q)
+    print()
+    print(e)
+    print()
+    print(d)
+
+    # We need to calculate d (using Extended Euclidean Algorithm)
+    # print(p*q, p, q, e, d)
+    print()
