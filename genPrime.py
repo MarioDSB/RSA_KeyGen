@@ -1,13 +1,13 @@
 import sys
 import random
-from datetime import datetime
 
 l = int(sys.argv[1])
 
 max_rounds = 100
 smallPrimes = []
 e = 65537
-# nsieve such that this sieve will have the first n small primes.
+# nsieve such that this sieve will have the first 1000 small primes.
+# Find a good reason for considering the first 1000 primes and cite it in our report.
 nsieve = 7920
 
 
@@ -95,7 +95,6 @@ def gcd(a, b):
 
 
 if __name__ == "__main__":
-    startTime = datetime.now()
 
     p = gen_rand(l)
     q = gen_rand(l)
@@ -111,18 +110,11 @@ if __name__ == "__main__":
 
     exp = int(l/3)+1
 
-    print (exp)
-
-    print(len(bin(n))-2)
-
-
     # Primes are RSA-SAFE if their absolute value is equal or greater than their safe distance.
     # Alternatively, a prime p is a strong prime if (p-1) has a very large prime factor
     # Source: https://eprint.iacr.org/2009/318.pdf
     # Source: https://crypto.stackexchange.com/questions/5262/rsa-and-prime-difference
     safedist = pow(2,exp)
-
-    print(safedist)
 
     while p == q or abs(p-q) < safedist:
         q = generate_prime(l)
@@ -138,9 +130,5 @@ if __name__ == "__main__":
     #print (q)
 
     # We need to calculate d (using Extended Euclid)
-    #print(p*q, p, q, e, )
-    #print("")
-
-    # No need to use this timer. We can just run "time python genPrime 4096"
-    t = datetime.now() - startTime
-    print(t)
+    print(p*q, p, q, e, )
+    print("")
