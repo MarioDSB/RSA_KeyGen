@@ -8,7 +8,7 @@ import sys
 
 def getTime(l):
   startTime = datetime.now()
-  subprocess.run('python3 genRSAkey.py '+str(l),stderr=subprocess.STDOUT,shell=True)
+  subprocess.run('python genRSAkey.py '+str(l),stderr=subprocess.STDOUT,shell=True)
   t = datetime.now() - startTime
   return str(t)
 

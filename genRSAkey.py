@@ -3,6 +3,8 @@ import random
 
 
 def genRSAkey(l):
+    # Page 70 of https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf states that for p with 2048 bits, the minimum number of rounds with error probability 2^-112 is 56.
+    # Refer to the 4^-k in: https://en.wikipedia.org/wiki/Miller-Rabin_primality_test#Accuracy_of_the_test
     max_rounds = 100
     e = 65537
 
@@ -140,7 +142,7 @@ def genRSAkey(l):
 
     exp = int(l / 3) + 1
 
-    # Primes are RSA-SAFE if their absolute value is equal or greater than their safe distance.
+    # Primes are RSA-SAFE if their absolute value is equal or greater than their "safe distance".
     # Alternatively, a prime p is a strong prime if (p-1) has a very large prime factor
     # Source: https://eprint.iacr.org/2009/318.pdf
     # Source: https://crypto.stackexchange.com/questions/5262/rsa-and-prime-difference
@@ -160,7 +162,6 @@ def genRSAkey(l):
         q = generate_prime()
         while abs(p - q) < safedist:
             q = generate_prime()
-            phi = (p - 1) * (q - 1)
         phi = (p - 1) * (q - 1)
 
     d = ext_eucl_alg(e, phi)
