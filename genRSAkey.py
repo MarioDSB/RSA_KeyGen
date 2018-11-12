@@ -147,7 +147,10 @@ def genRSAkey(l):
     safedist = pow(2, exp)
 
     while abs(p - q) < safedist:
-        q = generate_prime()
+        if (p > q):
+            q = generate_prime()
+        else:
+            p = generate_prime()
 
     phi = (p - 1) * (q - 1)
 
@@ -157,6 +160,7 @@ def genRSAkey(l):
         q = generate_prime()
         while abs(p - q) < safedist:
             q = generate_prime()
+            phi = (p - 1) * (q - 1)
         phi = (p - 1) * (q - 1)
 
     d = ext_eucl_alg(e, phi)
