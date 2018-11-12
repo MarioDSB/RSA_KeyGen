@@ -52,7 +52,6 @@ def genRSAkey(l):
         return primes
 
     # nsieve such that this sieve will have the first 1000 small primes.
-    # TODO: Find a good reason for considering the first 1000 primes and cite it in our report.
     nsieve = 7920
     small_primes = er_sieve(nsieve)
 
