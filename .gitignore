@@ -1,6 +1,8 @@
-*.pdf
 *.pem
-*.txt
-*.jpg
-*.png
-*.tex
+*.pyc
+*.log
+*.fls
+*.fdb_latexmk
+*.aux
+*.out
+*.gz
