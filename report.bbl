@@ -1,0 +1,22 @@
+\begin{thebibliography}{1}
+
+\bibitem{DBLP:journals/dcc/Lenstra00}
+A.~K. Lenstra, ``Integer factoring,'' {\em Des. Codes Cryptography}, vol.~19,
+  no.~2/3, pp.~101--128, 2000.
+
+\bibitem{1204.1657v2}
+J.-M. Couveignes, T.~Ezome, and R.~Lercier, ``A faster pseudo-primality test,''
+  2012.
+
+\bibitem{1709.09963}
+G.~Yarmish and J.~Yarmish, ``Finding large primes,'' 2017.
+
+\bibitem{FIPS}
+F.~I.~P. Standards, ``Digital signature standard (dss) - fips pub 186-4,''
+  2019.
+
+\bibitem{pyrandom}
+P.~S. Foundation, ``Python language reference, version 3.''
+\newblock Disponível em: \url{https://docs.python.org/3/library/random.html}.
+
+\end{thebibliography}

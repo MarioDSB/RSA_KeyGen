@@ -46,7 +46,7 @@ Usando o módulo \texttt{random} do Python, a função \texttt{genRand(l)} gera 
 
 \subsection{Crivo de Eratóstenes}
 
-Depois de gerado o número $p$ (candidato a primo), verifcar-se-à, numa primeira fase, contra um crivo de Eratóstenes, gerado apenas uma vez aquando a chamada de \texttt{genRSAkey(l)} e guardado em \texttt{small\_primes}, contendo os $1000$ primeiros números primos. Se algum destes é factor de $p$, então sabemos que $p$ não é primo, sendo assim necessário invocar \texttt{genRand(l)} novamente e repetir o teste.
+Depois de gerado o número $p$ (candidato a primo), verificar-se-à, numa primeira fase, contra um crivo de Eratóstenes, gerado apenas uma vez aquando a chamada de \texttt{genRSAkey(l)} e guardado em \texttt{small\_primes}, contendo os $1000$ primeiros números primos. Se algum destes é factor de $p$, então sabemos que $p$ não é primo, sendo assim necessário invocar \texttt{genRand(l)} novamente e repetir o teste.
 
 \subsection{Teste de Miller-Rabin}
 
@@ -79,9 +79,19 @@ No caso em que o número $p$ gerado passa pelo processo de \textit{sieving} supr
 
 Apesar do módulo \texttt{random} na linguagem Python poder ser usado como função pseudo-aleatória para gerar grandes números candidatos a primos, é descrito na documentação \cite{pyrandom} que este não é adequado para usos em aplicações criptográficas. Em vista dos possíveis riscos que surgem de nos afastarmos da verdadeira aleatoriedade
 
-\section{Escolha do expoente público $e$}
+\section{Escolha do expoente público}
+Como expoente público, decidimos escolher, de forma estática, $e$ =  65537, uma vez que este número é usado de forma comum como expoente público no RSA.
+
+\vskip 0.4cm
+
+\noindent A razão para ser tão comum deve-se a ser um número de Fermat (${2^{2^n}}+1$), com $n$ = 4; um número primo suficientemente grande para evitar certos ataques ao RSA e a ter um peso de Hamming baixo (número de bits a 1), o que torna a sua computação em computadores binários extremamente rápida.
 
 \section{Cálculo de $d$}
+Para calcular o $d$, utilizamos uma extensão do algoritmo de Euclides, onde $ax + by = gcd(a,b)$, uma vez que esta permite calcular um inverso modular multiplicativo, de forma muito rápida.
+
+\vskip 0.4cm
+
+\noindent Da expressão $ax + by = gcd(a,b)$ ($=1$, porque, neste caso, $a$ e $b$ são primos), pode conferir-se que $ax \equiv 1 (mod (b))$, e da expressão $ed \equiv 1 (mod (p-1)(q-1))$, pode simplesmente apurar-se que $d = e^{-1} (mod (p-1)(q-1))$, o que permite aplicar o algoritmo, para descobrir o $d$.
 
 \section{Tempos de execução e conclusões finais}
 
