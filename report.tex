@@ -40,17 +40,17 @@ Pretende-se neste relatório descrever a Implementação de uma função em pyth
 \end{enumerate}
 
 \section{Geração de candidatos a primos $p$ e $q$}
-Usando o módulo \texttt{random} do Python, a função \texttt{genRand(l)} gera números ímpares no intervalo $2^{w-1} + 1$ e $2^{w} - 1$ em que $w=\lfloor \frac{2}{\ell} \rfloor$, sendo que todos os números passíveis de serem gerados por \texttt{random.randrange} no intervalo descrito acima são depois \textbf{OR}-ed com $1$ no seu bit menos significativo, aumentando assim a eficiência do gerador já que isto elimina a necessidade de gerar números candidatos a primos e depois testar num ciclo \texttt{while} a divisibilidade destes por $2$, visto que qualquer primo $>2$ é necessariamente ímpar.
+Usando o módulo \texttt{random} do Python, a função \texttt{genRand(l)} gera números ímpares no intervalo $2^{w-1} + 1$ e $2^{w} - 1$ em que $w=\lfloor \frac{\ell}{2} \rfloor$, sendo que todos os números passíveis de serem gerados por \texttt{random.randrange} no intervalo descrito acima são depois \textbf{OR}-ed com $1$ no seu bit menos significativo, aumentando assim a eficiência do gerador já que isto elimina a necessidade de gerar números candidatos a primos e depois testar num ciclo \texttt{while} a divisibilidade destes por $2$, visto que qualquer primo $>2$ é necessariamente ímpar.
 
 \vskip 0.4cm
 
 \subsection{Crivo de Eratóstenes}
 
-Depois de gerado o número $p$ (candidato a primo), verifcar-se-à, numa primeira fase, contra um crivo de Eratóstenes, gerado apenas uma vez aquando a chamada de \texttt{genRSAkey(l)} e guardado em \texttt{small\_primes}, contendo os $1000$ primeiros números primos. Se algum destes é factor de $p$, então sabemos que $p$ não é primo, sendo assim necessário invocar \texttt{genRand(l)} novamente e repetir o teste.
+Depois de gerado o número $p$ (candidato a primo), verificar-se-à, numa primeira fase, contra um crivo de Eratóstenes, gerado apenas uma vez aquando a chamada de \texttt{genRSAkey(l)} e guardado em \texttt{small\_primes}, contendo os $1000$ primeiros números primos. Se algum destes é factor de $p$, então sabemos que $p$ não é primo, sendo assim necessário invocar \texttt{genRand(l)} novamente e repetir o teste.
 
 \subsection{Teste de Miller-Rabin}
 
-No caso em que o número $p$ gerado passa pelo processo de \textit{sieving} supra descrito sem serem encontrados factores primos, prosseguimos para o teste de primalidade de Miller-Rabin (probabilístico). É de salientar que este último domina a complexidade temporal de \texttt{genRSAkey(l)}. Usar \textit{sieving} é eficaz em minimizar o número de vezes em que é gerado um número composto $p$ e este tem que ser sujeito ao teste de Miller-Rabin, ou seja: se p tem factores primos relativamente pequenos, detectamos desde logo que este é composto, gerando assim um novo $p$ cuja primalidade volta a ser testada pelo mesmo processo, minimizando assim o número de iterações "desnecessárias" do teste de M-R. Formalmente, dada uma constante $B$, só serão sujeitos ao teste de M-R os canidatos a primos que se revelam $B$\textit{-smooth} \textbf{TODO: INCLUIR FONTE SOBRE B-SMOOTH}.
+No caso em que o número $p$ gerado passa pelo processo de \textit{sieving} supra descrito sem serem encontrados factores primos, prosseguimos para o teste de primalidade de Miller-Rabin (probabilístico). É de salientar que este último domina a complexidade temporal de \texttt{genRSAkey(l)}. Usar \textit{sieving} é eficaz em minimizar o número de vezes em que é gerado um número composto $p$ e este tem que ser sujeito ao teste de Miller-Rabin, ou seja: se p tem factores primos relativamente pequenos, detectamos desde logo que este é composto, gerando assim um novo $p$ cuja primalidade volta a ser testada pelo mesmo processo, minimizando assim o número de iterações "desnecessárias" do teste de M-R. Formalmente, dada uma constante $B$, só serão sujeitos ao teste de M-R os candidatos a primos que se revelam $B$\textit{-smooth} \textbf{TODO: INCLUIR FONTE SOBRE B-SMOOTH}.
 
 \vskip 0.4cm
 
@@ -80,8 +80,18 @@ No caso em que o número $p$ gerado passa pelo processo de \textit{sieving} supr
 \textbf{TODO: FALAR DAQUELA COISA DA SAFEDIST}
 
 \section{Escolha do expoente público}
+Como expoente público, decidimos escolher, de forma estática, $e$ =  65537, uma vez que este número é usado de forma comum como expoente público no RSA.
+
+\vskip 0.4cm
+
+\noindent A razão para ser tão comum deve-se a ser um número de Fermat (${2^{2^n}}+1$), com $n$ = 4; um número primo suficientemente grande para evitar certos ataques ao RSA e a ter um peso de Hamming baixo (número de bits a 1), o que torna a sua computação em computadores binários extremamente rápida.
 
 \section{Cálculo de $d$}
+Para calcular o $d$, utilizamos uma extensão do algoritmo de Euclides, onde $ax + by = gcd(a,b)$, uma vez que esta permite calcular um inverso modular multiplicativo, de forma muito rápida.
+
+\vskip 0.4cm
+
+\noindent Da expressão $ax + by = gcd(a,b)$ ($=1$, porque, neste caso, $a$ e $b$ são primos), pode conferir-se que $ax \equiv 1 (mod (b))$, e da expressão $ed \equiv 1 (mod (p-1)(q-1))$, pode simplesmente apurar-se que $d = e^{-1} (mod (p-1)(q-1))$, o que permite aplicar o algoritmo, para descobrir o $d$.
 
 \section{Tempos de execução e conclusões finais}
 
