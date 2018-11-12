@@ -20,7 +20,7 @@
 
 \begin{document}
 
-Criptografia (2018/2019)
+\noindent Criptografia (2018/2019)
 \hfill DCC/FCUP
 
 \begin{center}\LARGE\bf 
@@ -40,7 +40,7 @@ Pretende-se neste relatório descrever a Implementação de uma função em pyth
 \end{enumerate}
 
 \section{Geração de candidatos a primos $p$ e $q$}
-Usando o módulo \texttt{random} do Python, a função \texttt{genRand(l)} gera números ímpares no intervalo $2^{w-1} + 1$ e $2^{w} - 1$ em que $w=\lfloor \frac{2}{\ell} \rfloor$, sendo que todos os números passíveis de serem gerados por \texttt{random.randrange} no intervalo descrito acima são depois \textbf{OR}-ed com $1$ no seu bit menos significativo, aumentando assim a eficiência do gerador já que isto elimina a necessidade de gerar números candidatos a primos e depois testar num ciclo \texttt{while} a divisibilidade destes por $2$, visto que qualquer primo $>2$ é necessariamente ímpar.
+Usando o módulo \texttt{random} do Python, a função \texttt{genRand(l)} gera números ímpares no intervalo $2^{w-1} + 1$ e $2^{w} - 1$ em que $w=\lfloor \frac{\ell}{2} \rfloor$, sendo que todos os números passíveis de serem gerados por \texttt{random.randrange} no intervalo descrito acima são depois \textbf{OR}-ed com $1$ no seu bit menos significativo, aumentando assim a eficiência do gerador já que isto elimina a necessidade de gerar números candidatos a primos e depois testar num ciclo \texttt{while} a divisibilidade destes por $2$, visto que qualquer primo $>2$ é necessariamente ímpar.
 
 \vskip 0.4cm
 
@@ -50,7 +50,7 @@ Depois de gerado o número $p$ (candidato a primo), verifcar-se-à, numa primeir
 
 \subsection{Teste de Miller-Rabin}
 
-No caso em que o número $p$ gerado passa pelo processo de \textit{sieving} supra descrito sem serem encontrados factores primos, prosseguimos para o teste de primalidade de Miller-Rabin (probabilístico). É de salientar que este último domina a complexidade temporal de \texttt{genRSAkey(l)}. Usar \textit{sieving} é eficaz em minimizar o número de vezes em que é gerado um número composto $p$ e este tem que ser sujeito ao teste de Miller-Rabin, ou seja: se p tem factores primos relativamente pequenos, detectamos desde logo que este é composto, gerando assim um novo $p$ cuja primalidade volta a ser testada pelo mesmo processo, minimizando assim o número de iterações "desnecessárias" do teste de M-R. Formalmente, dada uma constante $B$, só serão sujeitos ao teste de M-R os canidatos a primos que se revelam $B$\textit{-smooth} \textbf{TODO: INCLUIR FONTE SOBRE B-SMOOTH}.
+No caso em que o número $p$ gerado passa pelo processo de \textit{sieving} supra descrito sem serem encontrados factores primos, prosseguimos para o teste de primalidade de Miller-Rabin (probabilístico). É de salientar que este último domina a complexidade temporal de \texttt{genRSAkey(l)}. Usar \textit{sieving} é eficaz em minimizar o número de vezes em que é gerado um número composto $p$ e este tem que ser sujeito ao teste de Miller-Rabin, ou seja: se p tem factores primos relativamente pequenos, detectamos desde logo que este é composto, gerando assim um novo $p$ cuja primalidade volta a ser testada pelo mesmo processo, minimizando assim o número de iterações "desnecessárias" do teste de M-R. Formalmente, dada uma constante $B$, só serão sujeitos ao teste de M-R os canidatos a primos que se não se revelem $B$\textit{-smooth} \textbf{TODO: INCLUIR FONTE SOBRE B-SMOOTH} e neste caso $B$ é o último elemento do crivo de Eratóstenes.
 
 \vskip 0.4cm
 
@@ -69,20 +69,23 @@ No caso em que o número $p$ gerado passa pelo processo de \textit{sieving} supr
 
 % Consultar: https://en.wikipedia.org/wiki/Miller–Rabin_primality_test
 
-\noindent Por \textbf{TODO: INCLUIR FONTE} é possivel mostrar que pelo menos $\frac{3}{4}$ das testemunhas aleatórias em $a \in [2,n-2]$ atestam que $n$ é composto, que é o mesmo que dizer que no máximo $\frac{1}{4}$ das testemunhas aleatórias no mesmo intervalo, declaram que este número é primo. Com isto podemos dizer que $Pr[Y_k|X] \leq \frac{1}{4}$ para uma iteração do teste de M-R, ou $k=1$. Sendo que para todas as $k$ iterações do teste de M-R, é independente a escolha de $a$, mostrou-se em \textbf{TODO: INCLUIR FONTE} que a probabilidade de erro deste teste pode ser descrita em função de $k$ como $Pr[X|Y_k] \leq (\frac{1}{4})^k$ e que $Pr[Y_k|X] = Pr[X|Y_k]$ \textbf{TODO: CLARIFICAR ISTO}.
+\noindent Por \cite{DBLP:journals/dcc/Lenstra00} e assumindo a veracidade da Hipótese Generalizada de Riemann é possivel mostrar que pelo menos $\frac{3}{4}$ das testemunhas aleatórias em $a \in [2,n-2]$ podem garantir que $n$ é composto, que é o mesmo que dizer que no máximo $\frac{1}{4}$ das testemunhas aleatórias no mesmo intervalo não garantem tal. Com isto podemos dizer que $Pr[Y_k|X] \leq \frac{1}{4}$ para uma iteração do teste de M-R, ou seja $k=1$. Sendo que para todas as $k$ iterações do teste de M-R, é independente a escolha de $a$, mostrou-se em \cite{1204.1657v2} que a probabilidade de erro deste teste pode ser descrita em função de $k$ como $Pr[X|Y_k] \leq (\frac{1}{4})^k$ e que $Pr[Y_k|X]$ é relacionável com $Pr[X|Y_k]$, advindo do teorema de Bayes e conforme detalhado em \cite{1709.09963}.
 
 \vskip 0.4cm
 
-\noindent Em vista dos resultados obtidos escolheu-se um $k=100$, coincidente com \texttt{max\_rounds} na função de geração de tuplos para as chaves RSA, o que admite uma porbabilidade de erro igual ou inferior a $\frac{1}{4^{100}}$, algo admissível na geração dos factores primos de $n$.
+\noindent Em vista dos resultados obtidos escolheu-se um $k=100$, coincidente com \texttt{max\_rounds} na função de geração de tuplos para as chaves RSA, o que admite uma probabilidade de erro igual ou inferior a $\frac{1}{4^{100}}$, algo admissível na geração dos factores primos de $n$ (RSA \textit{modulus}). Para suportar o argumento acima, de acordo com \cite{FIPS} (página 70) é dito que para uma probabilidade de erro até $2^{-112}$, são recomendadas pelo menos $56$ iterações do teste M-R, quando $p$ e $q$ tiverem na sua representação 2048 bits.
 
 \subsection{Noção de \textit{strong primes} em RSA}
 
-\textbf{TODO: FALAR DAQUELA COISA DA SAFEDIST}
+Apesar do módulo \texttt{random} na linguagem Python poder ser usado como função pseudo-aleatória para gerar grandes números candidatos a primos, é descrito na documentação \cite{pyrandom} que este não é adequado para usos em aplicações criptográficas. Em vista dos possíveis riscos que surgem de nos afastarmos da verdadeira aleatoriedade
 
-\section{Escolha do expoente público}
+\section{Escolha do expoente público $e$}
 
 \section{Cálculo de $d$}
 
 \section{Tempos de execução e conclusões finais}
+
+\bibliography{report}
+\bibliographystyle{ieeetr}
 
 \end{document}
