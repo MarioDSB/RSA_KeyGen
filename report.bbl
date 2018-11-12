@@ -15,8 +15,13 @@ G.~Yarmish and J.~Yarmish, ``Finding large primes,'' 2017.
 F.~I.~P. Standards, ``Digital signature standard (dss) - fips pub 186-4,''
   2019.
 
-\bibitem{pyrandom}
-P.~S. Foundation, ``Python language reference, version 3.''
-\newblock Disponível em: \url{https://docs.python.org/3/library/random.html}.
+\bibitem{rh}
+``Wikipedia - riemann hypothesis.''
+\newblock
+  \url{https://en.wikipedia.org/wiki/Riemann_hypothesis#Large_prime_gap_conjecture}.
+
+\bibitem{DBLP:journals/iacr/ErraG09}
+R.~Erra and C.~Grenier, ``The fermat factorization method revisited,'' {\em
+  {IACR} Cryptology ePrint Archive}, vol.~2009, p.~318, 2009.
 
 \end{thebibliography}

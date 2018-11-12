@@ -18,6 +18,8 @@
 \setlength{\oddsidemargin}{0in}
 \setlength{\evensidemargin}{0in}
 
+\newcommand{\Lim}[1]{\raisebox{0.5ex}{\scalebox{0.8}{$\displaystyle \lim_{#1}\;$}}}
+
 \begin{document}
 
 \noindent Criptografia (2018/2019)
@@ -69,7 +71,7 @@ No caso em que o número $p$ gerado passa pelo processo de \textit{sieving} supr
 
 % Consultar: https://en.wikipedia.org/wiki/Miller–Rabin_primality_test
 
-\noindent Por \cite{DBLP:journals/dcc/Lenstra00} e assumindo a veracidade da Hipótese Generalizada de Riemann é possivel mostrar que pelo menos $\frac{3}{4}$ das testemunhas aleatórias em $a \in [2,n-2]$ podem garantir que $n$ é composto, que é o mesmo que dizer que no máximo $\frac{1}{4}$ das testemunhas aleatórias no mesmo intervalo não garantem tal. Com isto podemos dizer que $Pr[Y_k|X] \leq \frac{1}{4}$ para uma iteração do teste de M-R, ou seja $k=1$. Sendo que para todas as $k$ iterações do teste de M-R, é independente a escolha de $a$, mostrou-se em \cite{1204.1657v2} que a probabilidade de erro deste teste pode ser descrita em função de $k$ como $Pr[X|Y_k] \leq (\frac{1}{4})^k$ e que $Pr[Y_k|X]$ é relacionável com $Pr[X|Y_k]$, advindo do teorema de Bayes e conforme detalhado em \cite{1709.09963}.
+\noindent Por \cite{DBLP:journals/dcc/Lenstra00} é possivel mostrar que pelo menos $\frac{3}{4}$ das testemunhas aleatórias em $a \in [2,n-2]$ podem garantir que $n$ é composto, que é o mesmo que dizer que no máximo $\frac{1}{4}$ das testemunhas aleatórias no mesmo intervalo não garantem tal. Com isto podemos dizer que $Pr[Y_k|X] \leq \frac{1}{4}$ para uma iteração do teste de M-R, ou seja $k=1$. Sendo que para todas as $k$ iterações do teste de M-R, é independente a escolha de $a$, mostrou-se em \cite{1204.1657v2} que a probabilidade de erro deste teste pode ser descrita em função de $k$ como $Pr[X|Y_k] \leq (\frac{1}{4})^k$ e que $Pr[Y_k|X]$ é relacionável com $Pr[X|Y_k]$, advindo do teorema de Bayes e conforme detalhado em \cite{1709.09963}.
 
 \vskip 0.4cm
 
@@ -77,7 +79,7 @@ No caso em que o número $p$ gerado passa pelo processo de \textit{sieving} supr
 
 \subsection{Noção de \textit{strong primes} em RSA}
 
-Apesar do módulo \texttt{random} na linguagem Python poder ser usado como função pseudo-aleatória para gerar grandes números candidatos a primos, é descrito na documentação \cite{pyrandom} que este não é adequado para usos em aplicações criptográficas. Em vista dos possíveis riscos que surgem de nos afastarmos da verdadeira aleatoriedade
+Com base na hipótese de Riemann, o teorema dos números primos \cite{rh} implica que para um grande primo $p$, a sua proximidade com relação ao seu sucessor é expressa em função de $log(p)$ e $\Lim{p \rightarrow \infty}log(p) = \infty$. Isto significa que para números da ordem de $2048$ bits, temos elevada probabilidade de gerar um par $p$ e $q$ que seja seguro no sentido em que $n$ não seja facilmente factorizável, porque $p$ e $q$ não são suficientemente próximos. Mais concretamente, conforme provado em \cite{DBLP:journals/iacr/ErraG09}, devemos garantir que $|p-q| > 2^{\frac{k}{3}}$ para que $n$ não seja passível de ser factorizado em tempo polinomial, pelo método de de factorização de Fermat.
 
 \section{Escolha do expoente público}
 Como expoente público, decidimos escolher, de forma estática, $e$ =  65537, uma vez que este número é usado de forma comum como expoente público no RSA.
