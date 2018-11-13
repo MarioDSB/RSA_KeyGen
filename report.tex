@@ -101,7 +101,7 @@
   
   Apesar de neste trabalho lidarmos com números de grande magnitude e isso mitigar de certa forma os riscos associados a ataques ao RSA baseados na factorização de $n$, achámos pertinente tomar certas medidas que descrevemos em cima quando justificável. É seguro afirmar que foi atingido o objectivo de geração de tuplos $(n,p,q,e,d)$ em tempo que podemos considerar útil, sendo que no corpo de \texttt{genRSAkey(l)} existem instruções de controlo, por forma a garantir todas as condições referidas na Secção 1 e assegurar a correcção do algoritmo.\\
   
-  \noindent Abaixo inclui-se um histograma de frequências para os tempos de execução, na ordem dos segundos, de \texttt{genRSAkey(l)} de um total de $2000$ iterações, em que valores decimais foram arredondados para o inteiro mais próximo.
+  \noindent Abaixo inclui-se um histograma de frequências para os tempos de execução, na ordem dos segundos, de \texttt{genRSAkey(4096)} de um total de $2000$ iterações, em que valores decimais foram arredondados para o inteiro mais próximo.
   
   \vskip 0.2cm
   
@@ -109,7 +109,7 @@
   \includegraphics{LPrimeFreqs2000.png}
   }
   
-  Da amostra referida de $2000$ tempos de execução, podemos afirmar que o valor esperado do tempo de execução de \texttt{genRSAkey(l)} é aproximadamente $9.94$ segundos.
+  Da amostra referida de $2000$ tempos de execução, podemos afirmar que o valor esperado do tempo de execução de \texttt{genRSAkey(l)}, para valores de $\ell$ na ordem de $2^12$ (conforme esperado) é aproximadamente $9.94$ segundos.
 
   \bibliography{report.bib}
   \bibliographystyle{ieeetr}
