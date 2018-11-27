@@ -1,6 +1,7 @@
-import sys
-import random
+# AUTHORS: Luis Freitas (up201506025) & Mario Barbosa (up201504054)
 
+import random
+import sys
 
 def genRSAkey(l):
     # Page 70 of https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf states that for p with 2048 bits, the minimum number of rounds with error probability 2^-112 is 56.
@@ -168,9 +169,7 @@ def genRSAkey(l):
 
     d = ext_eucl_alg(e, phi)
 
-    # We need to calculate d (using Extended Euclidean Algorithm)
     return p * q, p, q, e, d
-
 
 if __name__ == "__main__":
     genRSAkey(int(sys.argv[1]))
