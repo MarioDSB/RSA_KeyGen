@@ -1,4 +1,4 @@
-# AUTHORS: Luis Freitas (up201506025) & Mario Barbosa (up201504054)
+# AUTHORS: Luis Freitas (up201506025@fc.up.pt) & Mario Barbosa (up201504054@fc.up.pt)
 
 import random
 import sys
